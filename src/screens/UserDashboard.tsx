@@ -58,21 +58,43 @@ const UserDashboard = ({ navigation }: any) => {
         GlobalStore.userLocation = loc; setUserLocation(loc);
       }
     });
+    let combinedData: any = { ...GlobalStore.shops };
+    const updateShops = () => {
+      GlobalStore.shops = combinedData; setShops({...combinedData}); setShopsLoaded(true);
+      Object.keys(combinedData).forEach((id) => {
+        if (combinedData[id].role === 'shopkeeper') {
+          database().ref("products").orderByChild("shopId").equalTo(id).once("value")
+            .then((ps) => { GlobalStore.products[id] = ps.val() || {}; }).catch(() => { });
+        }
+      });
+    };
+
     const shopsRef = database().ref("users").orderByChild("role").equalTo("shopkeeper");
     const sl = shopsRef.on("value", (snap) => {
       const data = snap.val() || {};
-      GlobalStore.shops = data; setShops(data); setShopsLoaded(true);
-      Object.keys(data).forEach((shopId) => {
-        database().ref("products").orderByChild("shopId").equalTo(shopId).once("value")
-          .then((ps) => { GlobalStore.products[shopId] = ps.val() || {}; }).catch(() => { });
-      });
+      Object.keys(combinedData).forEach(k => { if(combinedData[k].role === 'shopkeeper') delete combinedData[k] });
+      combinedData = { ...combinedData, ...data }; updateShops();
+    });
+
+    const laborRef = database().ref("users").orderByChild("role").equalTo("labor");
+    const ll = laborRef.on("value", (snap) => {
+      const data = snap.val() || {};
+      Object.keys(combinedData).forEach(k => { if(combinedData[k].role === 'labor') delete combinedData[k] });
+      combinedData = { ...combinedData, ...data }; updateShops();
+    });
+
+    const transportRef = database().ref("users").orderByChild("role").equalTo("transport");
+    const tl = transportRef.on("value", (snap) => {
+      const data = snap.val() || {};
+      Object.keys(combinedData).forEach(k => { if(combinedData[k].role === 'transport') delete combinedData[k] });
+      combinedData = { ...combinedData, ...data }; updateShops();
     });
     const cartRef = database().ref(`carts/${currentUser!.uid}`);
     const cl = cartRef.on("value", (s) => {
       const v = s.val(); const count = v ? Object.keys(v).length : 0;
       GlobalStore.cartCount = count; setCartCount(count);
     });
-    return () => { userRef.off("value", ul); shopsRef.off("value", sl); cartRef.off("value", cl); };
+    return () => { userRef.off("value", ul); shopsRef.off("value", sl); laborRef.off("value", ll); transportRef.off("value", tl); cartRef.off("value", cl); };
   }, [currentUser]);
 
   const cityOptions = useMemo(() => {
@@ -84,7 +106,7 @@ const UserDashboard = ({ navigation }: any) => {
   const filteredShops = useMemo(() => {
     const list = Object.entries(shops).filter(([, s]) => {
       const q = searchTerm.toLowerCase();
-      const matchSearch = !q || s.shopName?.toLowerCase().includes(q) || s.type?.toLowerCase().includes(q) || s.location?.toLowerCase().includes(q);
+      const matchSearch = !q || s.shopName?.toLowerCase().includes(q) || s.type?.toLowerCase().includes(q) || s.location?.toLowerCase().includes(q) || s.fullName?.toLowerCase().includes(q) || s.skillType?.toLowerCase().includes(q) || s.vehicleType?.toLowerCase().includes(q);
       const matchCity = selectedCity === "All" || s.location?.toLowerCase().trim() === selectedCity.toLowerCase().trim();
       return matchSearch && matchCity;
     }).map(([id, s]) => {
@@ -118,9 +140,13 @@ const UserDashboard = ({ navigation }: any) => {
     finally { setDetectingLoc(false); }
   };
 
-  const openShop = useCallback((shopId: string, shopData: UserData) => {
+  const openShop = useCallback((userId: string, targetData: UserData) => {
     Keyboard.dismiss();
-    navigation.navigate("ShopProducts", { shopId, shopData, cachedProducts: GlobalStore.products[shopId] ?? null });
+    if (targetData.role === "labor" || targetData.role === "transport") {
+      navigation.navigate("ServiceProfile", { userId, userData: targetData });
+    } else {
+      navigation.navigate("ShopProducts", { shopId: userId, shopData: targetData, cachedProducts: GlobalStore.products[userId] ?? null });
+    }
   }, [navigation]);
 
   const renderShopItem = useCallback(({ item, index }: { item: any; index: number }) => (

@@ -97,9 +97,14 @@ const AuthScreen = ({ navigation }: any) => {
                 <PasswordInput value={signupPass} onChange={setSignupPass} placeholder="Password" show={showSP} setShow={setShowSP} returnKeyType="next" />
                 <PasswordInput value={signupConfirm} onChange={setSignupConfirm} placeholder="Confirm password" show={showSC} setShow={setShowSC} returnKeyType="done" onSubmit={handleSignup} />
                 <Text style={styles.roleLabel}>Join as</Text>
-                <View style={styles.roleRow}>
-                  {([["shopkeeper", "storefront-outline", "Shopkeeper"], ["user", "person-outline", "Customer"]] as const).map(([r, icon, label]) => (
-                    <TouchableOpacity key={r} style={[styles.roleBtn, role === r && styles.roleBtnActive]} onPress={() => setRole(r)}>
+                <View style={[styles.roleRow, { flexWrap: 'wrap', gap: 8 }]}>
+                  {([
+                    ["user", "person-outline", "Customer"],
+                    ["shopkeeper", "storefront-outline", "Shop"],
+                    ["labor", "hammer-outline", "Labor"],
+                    ["transport", "car-outline", "Transport"]
+                  ] as const).map(([r, icon, label]) => (
+                    <TouchableOpacity key={r} style={[styles.roleBtn, role === r && styles.roleBtnActive, { flex: 1, minWidth: '45%' }]} onPress={() => setRole(r)}>
                       <Ionicons name={icon as any} size={rfs(17)} color={role === r ? "white" : ACCENT_BLUE} />
                       <Text style={[styles.roleBtnText, role === r && { color: "white" }]}>{label}</Text>
                     </TouchableOpacity>

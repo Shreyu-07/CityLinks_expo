@@ -68,11 +68,13 @@ const ProfileScreen = ({ navigation }: any) => {
           <Text style={styles.profileName}>{name || "User"}</Text>
           <Text style={styles.profileEmail}>{userData?.email || currentUser?.email}</Text>
           <View style={[styles.typePillLight, { marginTop: scale(8), alignSelf: "center" }]}>
-            <Text style={styles.typePillLightText}>{currentRole === "shopkeeper" ? "🏪 Shopkeeper" : "🛍️ Customer"}</Text>
+            <Text style={styles.typePillLightText}>
+              {currentRole === "shopkeeper" ? "🏪 Shopkeeper" : currentRole === "labor" ? "🛠️ Labor" : currentRole === "transport" ? "🚚 Transport" : "🛍️ Customer"}
+            </Text>
           </View>
         </View>
         <View style={[styles.formCard, { margin: scale(16) }]}>
-          <Text style={styles.formTitle}>{currentRole === "shopkeeper" ? "Shop Info" : "Personal Info"}</Text>
+          <Text style={styles.formTitle}>{currentRole === "shopkeeper" ? "Shop Info" : currentRole === "labor" || currentRole === "transport" ? "Professional Info" : "Personal Info"}</Text>
           {currentRole === "shopkeeper" ? (
             <>
               <InfoRow label="Shop name" value={userData?.shopName} />
@@ -85,6 +87,25 @@ const ProfileScreen = ({ navigation }: any) => {
               <InfoRow label="PAN" value={userData?.panNumber} />
               <InfoRow label="Shop Reg #" value={userData?.shopRegNumber} />
               <InfoRow label="Bank Account" value={userData?.bankAccount ? "••••" + userData.bankAccount.slice(-4) : undefined} />
+            </>
+          ) : currentRole === "labor" ? (
+            <>
+              <InfoRow label="Full name" value={userData?.fullName} />
+              <InfoRow label="Skill/Profession" value={userData?.skillType} />
+              <InfoRow label="Rate" value={userData?.hourlyRate ? `₹${userData.hourlyRate}` : undefined} />
+              <InfoRow label="About" value={userData?.about} />
+              <InfoRow label="Phone" value={userData?.phone} />
+              <InfoRow label="Location" value={userData?.location} />
+            </>
+          ) : currentRole === "transport" ? (
+            <>
+              <InfoRow label="Driver name" value={userData?.fullName} />
+              <InfoRow label="Vehicle Type" value={userData?.vehicleType} />
+              <InfoRow label="Capacity" value={userData?.vehicleCapacity} />
+              <InfoRow label="License/RC" value={userData?.licenseNumber} />
+              <InfoRow label="About" value={userData?.about} />
+              <InfoRow label="Phone" value={userData?.phone} />
+              <InfoRow label="Location" value={userData?.location} />
             </>
           ) : (
             <>

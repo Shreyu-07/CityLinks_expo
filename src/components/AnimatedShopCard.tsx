@@ -31,14 +31,14 @@ const AnimatedShopCard = ({ shopId, shop, onPress, index, distanceKm }: { shopId
           onPressOut={() => Animated.spring(sc, { toValue: 1, useNativeDriver: true, speed: 20, bounciness: 8 }).start()}
           activeOpacity={1}>
           <View style={styles.shopImgWrap}>
-            <Image source={{ uri: shop.shopPhoto || DEFAULT_SHOP_LOGO }} style={styles.shopCardImg} />
+            <Image source={{ uri: shop.shopPhoto || shop.photoURL || DEFAULT_SHOP_LOGO }} style={styles.shopCardImg} />
             <View style={styles.shopOnlineDot} />
           </View>
           <View style={styles.shopCardBody}>
-            <Text style={styles.shopCardName} numberOfLines={1}>{shop.shopName}</Text>
+            <Text style={styles.shopCardName} numberOfLines={1}>{shop.shopName || shop.fullName}</Text>
             <View style={{ flexDirection: "row", alignItems: "center", flexWrap: "wrap", gap: scale(5), marginTop: 4 }}>
               <View style={styles.typePill}>
-                <Text style={styles.typePillText} numberOfLines={1}>{shop.type || "General"}</Text>
+                <Text style={styles.typePillText} numberOfLines={1}>{shop.type || shop.skillType || shop.vehicleType || "General"}</Text>
               </View>
               {distanceKm !== undefined && (
                 <View style={styles.distancePill}>

@@ -37,17 +37,21 @@ const AddProductForm = () => {
     setPublishing(true);
     try {
       const prodId = database().ref("products").push().key;
-      await database().ref(`products/${prodId}`).set({
+      const payload: any = {
         shopId: currentUser!.uid,
         name: name.trim(),
-        quantity,
-        price,
-        photo: tempProdPhoto || "",
-        note,
-        category: category || undefined,
-        barcodeNumber: barcodeNumber.trim() || undefined, // FIX 2: save barcode
+        quantity: quantity.trim() || "1",
+        price: price.trim() || "0",
+        photo: tempProdPhoto || "https://via.placeholder.com/300?text=📦",
+        note: note.trim() || "N/A",
+        category: category || "Others",
         timestamp: Date.now(),
-      });
+      };
+      if (barcodeNumber.trim()) {
+        payload.barcodeNumber = barcodeNumber.trim();
+      }
+
+      await database().ref(`products/${prodId}`).update(payload);
       showToast("✅ Product added!", "success");
       handleCancel();
     } catch (e: any) { showToast(e.message, "error"); }

@@ -8,6 +8,11 @@ import UserDashboard from '../screens/UserDashboard';
 import ShopProducts from '../screens/ShopProducts';
 import ProductDetail from '../screens/ProductDetail';
 import EditProductForm from '../screens/EditProductForm';
+import LaborDetailsForm from '../screens/LaborDetailsForm';
+import TransportDetailsForm from '../screens/TransportDetailsForm';
+import LaborDashboard from '../screens/LaborDashboard';
+import TransportDashboard from '../screens/TransportDashboard';
+import ServiceProfile from '../screens/ServiceProfile';
 import ProfileScreen from '../screens/ProfileScreen';
 import EditProfileScreen from '../screens/EditProfileScreen';
 import ChangePasswordScreen from '../screens/ChangePasswordScreen';
@@ -33,8 +38,12 @@ const AppNavigatorInner = React.memo(({ currentUser }: { currentUser: any }) => 
       const d = s.val() || {};
       if (d.role === "shopkeeper" && !d.shopName) setInitialRoute("ShopkeeperDetails");
       else if (d.role === "user" && !d.fullName) setInitialRoute("UserDetails");
+      else if (d.role === "labor" && !d.skillType) setInitialRoute("LaborDetails");
+      else if (d.role === "transport" && !d.vehicleType) setInitialRoute("TransportDetails");
       else if (d.role === "shopkeeper") setInitialRoute("ShopkeeperDashboard");
       else if (d.role === "user") setInitialRoute("UserDashboard");
+      else if (d.role === "labor") setInitialRoute("LaborDashboard");
+      else if (d.role === "transport") setInitialRoute("TransportDashboard");
       else setInitialRoute("Auth");
     });
   }, []);
@@ -44,9 +53,14 @@ const AppNavigatorInner = React.memo(({ currentUser }: { currentUser: any }) => 
       <Stack.Screen name="Auth" component={AuthScreen} />
       <Stack.Screen name="ShopkeeperDetails" component={ShopkeeperDetailsForm} />
       <Stack.Screen name="UserDetails" component={UserDetailsForm} />
+      <Stack.Screen name="LaborDetails" component={LaborDetailsForm} />
+      <Stack.Screen name="TransportDetails" component={TransportDetailsForm} />
       <Stack.Screen name="ShopkeeperDashboard" component={ShopkeeperDashboard} />
       <Stack.Screen name="UserDashboard" component={UserDashboard} />
+      <Stack.Screen name="LaborDashboard" component={LaborDashboard} />
+      <Stack.Screen name="TransportDashboard" component={TransportDashboard} />
       <Stack.Screen name="ShopProducts" component={ShopProducts} />
+      <Stack.Screen name="ServiceProfile" component={ServiceProfile} />
       <Stack.Screen name="ProductDetail" component={ProductDetail} />
       <Stack.Screen name="EditProduct" component={EditProductForm} />
       <Stack.Screen name="Profile" component={ProfileScreen} />
