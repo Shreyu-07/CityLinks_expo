@@ -18,7 +18,12 @@ const TopBar = ({ title, showBranding, onBarcodePress, onProfilePress, avatarUri
 }) => (
   <View style={styles.topBar}>
     <View style={styles.topBarLeft}>
-      {leftContent ?? (showBranding ? <Text style={styles.brandText}>CityLinks</Text> : <Text style={styles.topBarTitle} numberOfLines={1}>{title}</Text>)}
+      {leftContent ?? (showBranding ? (
+        <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+          <Image source={require('../../assets/images/logo.png')} style={{ width: scale(45), height: scale(45), resizeMode: 'contain', marginRight: scale(8) }} />
+          <Text style={styles.brandText}>CityLinks</Text>
+        </View>
+      ) : <Text style={styles.topBarTitle} numberOfLines={1}>{title}</Text>)}
     </View>
     <View style={styles.topBarRight}>
       {rightContent ?? (

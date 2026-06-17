@@ -1,28 +1,24 @@
-import { AppContext } from '../context/AppContext';
-import { GlobalStore } from '../utils/store';
-import { useToast } from '../utils/useToast';
-import { Keyboard } from 'react-native';
-import { StatusBar } from 'react-native';
-import Toast from '../components/Toast';
-import FloatingBubbles from '../components/FloatingBubbles';
-import ShopCardSkeleton from '../components/ShopCardSkeleton';
+import { Ionicons } from '@expo/vector-icons';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import { ActivityIndicator, FlatList, Image, Keyboard, Modal, StatusBar, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
 import AnimatedShopCard from '../components/AnimatedShopCard';
-import TopBar from '../components/TopBar';
+import BarcodeScannerModal from '../components/BarcodeScannerModal';
+import FloatingBubbles from '../components/FloatingBubbles';
 import PillBottomBar from '../components/PillBottomBar';
 import PillNavItem from '../components/PillNavItem';
-import BarcodeScannerModal from '../components/BarcodeScannerModal';
-import React, { useState, useEffect, useRef, useCallback, useMemo } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, Image, TextInput, ScrollView, Animated, Dimensions, Modal, KeyboardAvoidingView, Platform, FlatList, Alert, ActivityIndicator } from 'react-native';
-import { Ionicons } from '@expo/vector-icons';
-import { useNavigation } from '@react-navigation/native';
-import { scale, vs, ms, rfs, SCREEN_W, SCREEN_H } from '../utils/scaling';
-import { globalStyles as styles, BG_DARK, SURFACE, SURFACE_2, GLASS, GLASS_BORDER, ACCENT_BLUE, ACCENT_VIOLET, ACCENT_CYAN, ACCENT_AMBER, SUCCESS, WHATSAPP_GREEN, TEXT_WHITE, TEXT_MUTED, TEXT_DIM, STATUS_BAR_H, BOTTOM_TAB_H } from '../utils/theme';
-import { UserData, Product, UserRole, LatLng, Review, QueryItem } from '../types';
-import { useAppContext } from '../context/AppContext';
-import { database, auth } from '../services/firebase';
-import { requestLocationPermission, getCurrentLocation } from '../services/location';
-import { formatDistance, haversineKm } from '../utils/helpers';
-import { SHOP_CATEGORIES, DEFAULT_AVATAR, DEFAULT_SHOP_LOGO } from '../utils/constants';
+import ShopCardSkeleton from '../components/ShopCardSkeleton';
+import Toast from '../components/Toast';
+import TopBar from '../components/TopBar';
+import { AppContext } from '../context/AppContext';
+import { database } from '../services/firebase';
+import { getCurrentLocation, requestLocationPermission } from '../services/location';
+import { LatLng, UserData } from '../types';
+import { DEFAULT_AVATAR } from '../utils/constants';
+import { haversineKm } from '../utils/helpers';
+import { rfs, scale } from '../utils/scaling';
+import { GlobalStore } from '../utils/store';
+import { ACCENT_BLUE, ACCENT_CYAN, BG_DARK, BOTTOM_TAB_H, globalStyles as styles, TEXT_DIM, TEXT_MUTED, TEXT_WHITE } from '../utils/theme';
+import { useToast } from '../utils/useToast';
 
 const UserDashboard = ({ navigation }: any) => {
   const { currentUser } = React.useContext(AppContext);
@@ -135,7 +131,7 @@ const UserDashboard = ({ navigation }: any) => {
 
   return (
     <View style={styles.screen}>
-      <StatusBar barStyle="light-content" backgroundColor={BG_DARK} />
+      <StatusBar barStyle="dark-content" backgroundColor={BG_DARK} />
       <Toast message={toastState.message} type={toastState.type} visible={toastState.visible} />
 
       {/* FIX 3: lookup mode for user top barcode scanner */}

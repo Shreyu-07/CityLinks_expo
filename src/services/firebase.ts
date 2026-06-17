@@ -1,21 +1,29 @@
 import firebase from "firebase/compat/app";
 import "firebase/compat/auth";
 import "firebase/compat/database";
+// @ts-ignore - The type definitions in some Firebase versions do not export getReactNativePersistence even though it exists at runtime.
+import { initializeAuth, getReactNativePersistence } from "firebase/auth";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import { FIREBASE_API_KEY } from "../utils/constants";
 
 const firebaseConfig = {
   apiKey: FIREBASE_API_KEY,
-  authDomain: "fir-dddb2.firebaseapp.com",
-  databaseURL: "https://fir-dddb2-default-rtdb.firebaseio.com",
-  projectId: "fir-dddb2",
-  storageBucket: "fir-dddb2.firebasestorage.app",
-  messagingSenderId: "374284591449",
-  appId: "1:374284591449:web:dd28359035026950946c48",
-  measurementId: "G-2C2BMLHGWJ",
+  authDomain: "citylinks-50790.firebaseapp.com",
+  projectId: "citylinks-50790",
+  storageBucket: "citylinks-50790.firebasestorage.app",
+  messagingSenderId: "712023357198",
+  appId: "1:712023357198:web:6494d62847254cdb5d495f",
+  measurementId: "G-HN0F5TTTN1"
 };
 
+let app;
 if (!firebase.apps.length) {
-  firebase.initializeApp(firebaseConfig);
+  app = firebase.initializeApp(firebaseConfig);
+  initializeAuth(app, {
+    persistence: getReactNativePersistence(AsyncStorage)
+  });
+} else {
+  app = firebase.app();
 }
 
 export const auth = firebase.auth;

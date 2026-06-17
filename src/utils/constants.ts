@@ -1,6 +1,6 @@
 export const DEFAULT_AVATAR = "https://i.pravatar.cc/150?img=7";
 export const DEFAULT_SHOP_LOGO = "https://i.pravatar.cc/150?img=50";
-export const FIREBASE_API_KEY = "AIzaSyAof8LPnKFTlnRQgRaD-EUDMlnSmPz9_44";
+export const FIREBASE_API_KEY = "AIzaSyBrcggOOAvwW6ZKNRg0IZHfbLxXKN9DCU4";
 
 export const SHOP_CATEGORIES = [
   "Kirana / General Store", "Supermarket / Mini-Mart", "Vegetable & Fruit Vendor",

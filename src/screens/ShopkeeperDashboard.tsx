@@ -1,27 +1,22 @@
-import { AppContext } from '../context/AppContext';
-import { useToast } from '../utils/useToast';
-import { StatusBar } from 'react-native';
-import AddProductForm from './AddProductForm';
-import ViewProductsList from './ViewProductsList';
-import BillingSection from './BillingSection';
-import Toast from '../components/Toast';
-import TopBar from '../components/TopBar';
+import { Ionicons } from '@expo/vector-icons';
+import React, { useEffect, useState } from 'react';
+import { Image, KeyboardAvoidingView, Platform, ScrollView, StatusBar, Text, TouchableOpacity, View } from 'react-native';
+import BarcodeScannerModal from '../components/BarcodeScannerModal';
 import GlassHeader from '../components/GlassHeader';
 import PillBottomBar from '../components/PillBottomBar';
 import PillNavItem from '../components/PillNavItem';
-import BarcodeScannerModal from '../components/BarcodeScannerModal';
-import React, { useState, useEffect, useRef, useCallback, useMemo } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, Image, TextInput, ScrollView, Animated, Dimensions, Modal, KeyboardAvoidingView, Platform, FlatList, Alert, ActivityIndicator } from 'react-native';
-import { Ionicons } from '@expo/vector-icons';
-import { useNavigation } from '@react-navigation/native';
-import { scale, vs, ms, rfs, SCREEN_W, SCREEN_H } from '../utils/scaling';
-import { globalStyles as styles, BG_DARK, SURFACE, SURFACE_2, GLASS, GLASS_BORDER, ACCENT_BLUE, ACCENT_VIOLET, ACCENT_CYAN, ACCENT_AMBER, SUCCESS, WHATSAPP_GREEN, TEXT_WHITE, TEXT_MUTED, TEXT_DIM, STATUS_BAR_H, BOTTOM_TAB_H } from '../utils/theme';
-import { UserData, Product, UserRole, LatLng, Review, QueryItem } from '../types';
-import { useAppContext } from '../context/AppContext';
-import { database, auth } from '../services/firebase';
-import { requestLocationPermission, getCurrentLocation } from '../services/location';
-import { formatDistance, haversineKm } from '../utils/helpers';
-import { SHOP_CATEGORIES, DEFAULT_AVATAR, DEFAULT_SHOP_LOGO } from '../utils/constants';
+import Toast from '../components/Toast';
+import TopBar from '../components/TopBar';
+import { AppContext } from '../context/AppContext';
+import { database } from '../services/firebase';
+import { UserData } from '../types';
+import { DEFAULT_SHOP_LOGO } from '../utils/constants';
+import { rfs, scale } from '../utils/scaling';
+import { ACCENT_BLUE, BG_DARK, BOTTOM_TAB_H, globalStyles as styles, TEXT_MUTED, TEXT_WHITE } from '../utils/theme';
+import { useToast } from '../utils/useToast';
+import AddProductForm from './AddProductForm';
+import BillingSection from './BillingSection';
+import ViewProductsList from './ViewProductsList';
 
 const ShopkeeperDashboard = ({ navigation }: any) => {
   const { currentUser } = React.useContext(AppContext);
@@ -38,7 +33,7 @@ const ShopkeeperDashboard = ({ navigation }: any) => {
 
   return (
     <KeyboardAvoidingView style={styles.screen} behavior="padding" keyboardVerticalOffset={Platform.OS === "android" ? 0 : 0}>
-      <StatusBar barStyle="light-content" backgroundColor={BG_DARK} />
+      <StatusBar barStyle="dark-content" backgroundColor={BG_DARK} />
       <Toast message={toastState.message} type={toastState.type} visible={toastState.visible} />
 
       {/* FIX 3: lookup mode for shopkeeper top barcode scanner */}

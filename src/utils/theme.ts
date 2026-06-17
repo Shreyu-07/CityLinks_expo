@@ -4,20 +4,20 @@ import { rfs, scale, vs, SCREEN_W, SCREEN_H } from "./scaling";
 export const STATUS_BAR_H = Platform.OS === "ios" ? 44 : (StatusBar.currentHeight ?? 24);
 export const BOTTOM_TAB_H = Platform.OS === "ios" ? 90 : 70;
 
-export const BG_DARK = "#0A0F1E";
-export const SURFACE = "#111827";
-export const SURFACE_2 = "#1A2235";
-export const GLASS = "rgba(255,255,255,0.07)";
-export const GLASS_BORDER = "rgba(255,255,255,0.12)";
-export const ACCENT_BLUE = "#3B82F6";
+export const BG_DARK = "#F8FAFC";
+export const SURFACE = "#FFFFFF";
+export const SURFACE_2 = "#F1F5F9";
+export const GLASS = "rgba(0,0,0,0.03)";
+export const GLASS_BORDER = "rgba(0,0,0,0.08)";
+export const ACCENT_BLUE = "#1d3966";
 export const ACCENT_VIOLET = "#6366F1";
-export const ACCENT_CYAN = "#22D3EE";
-export const ACCENT_AMBER = "#F59E0B";
+export const ACCENT_CYAN = "#0891B2";
+export const ACCENT_AMBER = "#D97706";
 export const SUCCESS = "#10B981";
 export const WHATSAPP_GREEN = "#25D366";
-export const TEXT_WHITE = "#F1F5F9";
-export const TEXT_MUTED = "#94A3B8";
-export const TEXT_DIM = "#475569";
+export const TEXT_WHITE = "#0F172A";
+export const TEXT_MUTED = "#64748B";
+export const TEXT_DIM = "#94A3B8";
 
 export const globalStyles = StyleSheet.create({
   screen: { flex: 1, backgroundColor: BG_DARK },

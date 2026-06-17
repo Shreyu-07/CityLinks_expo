@@ -1,22 +1,16 @@
-import { AppContext } from '../context/AppContext';
-import { useToast } from '../utils/useToast';
-import { StatusBar } from 'react-native';
-import Toast from '../components/Toast';
-import SkeletonBox from '../components/SkeletonBox';
+import { Ionicons } from '@expo/vector-icons';
+import React, { useEffect, useState } from 'react';
+import { Image, ScrollView, StatusBar, Text, TouchableOpacity, View } from 'react-native';
 import PillBottomBar from '../components/PillBottomBar';
 import PillNavItem from '../components/PillNavItem';
-import React, { useState, useEffect, useRef, useCallback, useMemo } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, Image, TextInput, ScrollView, Animated, Dimensions, Modal, KeyboardAvoidingView, Platform, FlatList, Alert, ActivityIndicator } from 'react-native';
-import { Ionicons } from '@expo/vector-icons';
-import { useNavigation } from '@react-navigation/native';
-import { scale, vs, ms, rfs, SCREEN_W, SCREEN_H } from '../utils/scaling';
-import { globalStyles as styles, BG_DARK, SURFACE, SURFACE_2, GLASS, GLASS_BORDER, ACCENT_BLUE, ACCENT_VIOLET, ACCENT_CYAN, ACCENT_AMBER, SUCCESS, WHATSAPP_GREEN, TEXT_WHITE, TEXT_MUTED, TEXT_DIM, STATUS_BAR_H, BOTTOM_TAB_H } from '../utils/theme';
-import { UserData, Product, UserRole, LatLng, Review, QueryItem } from '../types';
-import { useAppContext } from '../context/AppContext';
-import { database, auth } from '../services/firebase';
-import { requestLocationPermission, getCurrentLocation } from '../services/location';
-import { formatDistance, haversineKm } from '../utils/helpers';
-import { SHOP_CATEGORIES, DEFAULT_AVATAR, DEFAULT_SHOP_LOGO } from '../utils/constants';
+import SkeletonBox from '../components/SkeletonBox';
+import Toast from '../components/Toast';
+import { AppContext } from '../context/AppContext';
+import { database } from '../services/firebase';
+import { Product } from '../types';
+import { rfs, scale } from '../utils/scaling';
+import { BG_DARK, BOTTOM_TAB_H, STATUS_BAR_H, globalStyles as styles, TEXT_DIM, TEXT_WHITE } from '../utils/theme';
+import { useToast } from '../utils/useToast';
 
 const CartScreen = ({ navigation }: any) => {
   const { currentUser } = React.useContext(AppContext);
@@ -48,7 +42,7 @@ const CartScreen = ({ navigation }: any) => {
 
   return (
     <View style={styles.screen}>
-      <StatusBar barStyle="light-content" backgroundColor={BG_DARK} />
+      <StatusBar barStyle="dark-content" backgroundColor={BG_DARK} />
       <Toast message={toastState.message} type={toastState.type} visible={toastState.visible} />
       <View style={[styles.topBar, { backgroundColor: BG_DARK, paddingTop: STATUS_BAR_H + scale(10), paddingBottom: scale(14) }]}>
         <TouchableOpacity onPress={() => navigation.goBack()} hitSlop={{ top: 8, bottom: 8, left: 8, right: 8 }} style={styles.topBarIconBtn}>

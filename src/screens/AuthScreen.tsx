@@ -1,20 +1,15 @@
-import { AppContext } from '../context/AppContext';
-import { StatusBar } from 'react-native';
-import FloatingBubbles from '../components/FloatingBubbles';
-import ErrorBanner from '../components/ErrorBanner';
-import PasswordInput from '../components/PasswordInput';
-import React, { useState, useEffect, useRef, useCallback, useMemo } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, Image, TextInput, ScrollView, Animated, Dimensions, Modal, KeyboardAvoidingView, Platform, FlatList, Alert, ActivityIndicator } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
-import { useNavigation } from '@react-navigation/native';
-import { scale, vs, ms, rfs, SCREEN_W, SCREEN_H } from '../utils/scaling';
-import { globalStyles as styles, BG_DARK, SURFACE, SURFACE_2, GLASS, GLASS_BORDER, ACCENT_BLUE, ACCENT_VIOLET, ACCENT_CYAN, ACCENT_AMBER, SUCCESS, WHATSAPP_GREEN, TEXT_WHITE, TEXT_MUTED, TEXT_DIM, STATUS_BAR_H, BOTTOM_TAB_H } from '../utils/theme';
-import { UserData, Product, UserRole, LatLng, Review, QueryItem } from '../types';
-import { useAppContext } from '../context/AppContext';
-import { database, auth } from '../services/firebase';
-import { requestLocationPermission, getCurrentLocation } from '../services/location';
-import { formatDistance, haversineKm } from '../utils/helpers';
-import { SHOP_CATEGORIES, DEFAULT_AVATAR, DEFAULT_SHOP_LOGO } from '../utils/constants';
+import React, { useState } from 'react';
+import { ActivityIndicator, Image, KeyboardAvoidingView, ScrollView, StatusBar, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
+import ErrorBanner from '../components/ErrorBanner';
+import FloatingBubbles from '../components/FloatingBubbles';
+import PasswordInput from '../components/PasswordInput';
+import { AppContext } from '../context/AppContext';
+import { auth, database } from '../services/firebase';
+import { UserRole } from '../types';
+import { DEFAULT_AVATAR, DEFAULT_SHOP_LOGO } from '../utils/constants';
+import { rfs, scale } from '../utils/scaling';
+import { ACCENT_BLUE, BG_DARK, globalStyles as styles, TEXT_DIM } from '../utils/theme';
 
 const AuthScreen = ({ navigation }: any) => {
   const [tab, setTab] = useState<"login" | "signup">("login");
@@ -62,13 +57,15 @@ const AuthScreen = ({ navigation }: any) => {
 
   return (
     <KeyboardAvoidingView style={{ flex: 1, backgroundColor: BG_DARK }} behavior="padding">
-      <StatusBar barStyle="light-content" backgroundColor={BG_DARK} />
+      <StatusBar barStyle="dark-content" backgroundColor={BG_DARK} />
       <View style={[StyleSheet.absoluteFill, { backgroundColor: BG_DARK }]} />
       <View style={{ position: "absolute", top: -scale(90), right: -scale(60), width: scale(300), height: scale(300), borderRadius: scale(150), backgroundColor: "rgba(99,102,241,0.2)" }} />
       <FloatingBubbles count={14} />
       <ScrollView contentContainerStyle={styles.authContainer} showsVerticalScrollIndicator={false} keyboardShouldPersistTaps="handled">
         <View style={styles.authHeader}>
-          <View style={styles.authLogoBubble}><Ionicons name="storefront" size={scale(44)} color="white" /></View>
+          <View style={{ alignItems: 'center', justifyContent: 'center', marginBottom: scale(16) }}>
+            <Image source={require('../../assets/images/logo.png')} style={{ width: scale(120), height: scale(120), resizeMode: 'contain' }} />
+          </View>
           <Text style={styles.authTitle}>CityLinks</Text>
           <Text style={styles.authSubtitle}>Discover local Shops & Services near you</Text>
         </View>
