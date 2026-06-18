@@ -9,7 +9,7 @@ export default function App() {
   return (
     <AppProvider>
       <NavigationContainer>
-        <StatusBar barStyle="dark-content" backgroundColor={BG_DARK} />
+        <StatusBar barStyle="dark-content" backgroundColor="#FFFFFF" />
         <AppNavigator />
       </NavigationContainer>
     </AppProvider>

@@ -33,7 +33,7 @@ const ShopkeeperDashboard = ({ navigation }: any) => {
 
   return (
     <KeyboardAvoidingView style={styles.screen} behavior="padding" keyboardVerticalOffset={Platform.OS === "android" ? 0 : 0}>
-      <StatusBar barStyle="dark-content" backgroundColor={BG_DARK} />
+      <StatusBar barStyle="dark-content" backgroundColor="#FFFFFF" />
       <Toast message={toastState.message} type={toastState.type} visible={toastState.visible} />
 
       {/* FIX 3: lookup mode for shopkeeper top barcode scanner */}

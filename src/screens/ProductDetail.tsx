@@ -77,7 +77,7 @@ const ProductDetail = ({ route, navigation }: any) => {
 
   return (
     <View style={styles.screen}>
-      <StatusBar barStyle="dark-content" backgroundColor={BG_DARK} />
+      <StatusBar barStyle="dark-content" backgroundColor="#FFFFFF" />
       <Toast message={toastState.message} type={toastState.type} visible={toastState.visible} />
       <FullImageViewer uri={productImageUri} visible={imageViewerVisible} onClose={() => setImageViewerVisible(false)} />
 

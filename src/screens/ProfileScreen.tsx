@@ -48,7 +48,7 @@ const ProfileScreen = ({ navigation }: any) => {
 
   return (
     <View style={styles.screen}>
-      <StatusBar barStyle="dark-content" backgroundColor={BG_DARK} />
+      <StatusBar barStyle="dark-content" backgroundColor="#FFFFFF" />
       <Toast message={toastState.message} type={toastState.type} visible={toastState.visible} />
       <ScrollView contentContainerStyle={{ paddingBottom: scale(50) }}>
         <View style={[styles.topBar, { backgroundColor: BG_DARK, paddingTop: STATUS_BAR_H + scale(10), paddingBottom: scale(14) }]}>
