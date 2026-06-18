@@ -46,7 +46,7 @@ const LaborDetailsForm = ({ navigation }: any) => {
 
   return (
     <KeyboardAvoidingView style={{ flex: 1, backgroundColor: BG_DARK }} behavior="padding">
-      <StatusBar barStyle="dark-content" backgroundColor={BG_DARK} />
+      <StatusBar barStyle="dark-content" backgroundColor="#FFFFFF" />
       <ScrollView contentContainerStyle={styles.formContainer} keyboardShouldPersistTaps="handled" showsVerticalScrollIndicator={false}>
         <View style={styles.formCard}>
           <Text style={styles.formTitle}>🛠️ Labor Profile</Text>

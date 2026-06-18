@@ -53,7 +53,7 @@ const ShopProducts = ({ route, navigation }: any) => {
 
   return (
     <View style={styles.screen}>
-      <StatusBar barStyle="dark-content" backgroundColor={BG_DARK} />
+      <StatusBar barStyle="dark-content" backgroundColor="#FFFFFF" />
       <Toast message={toastState.message} type={toastState.type} visible={toastState.visible} />
       <GlassHeader extraPad={shop?.phone ? scale(10) : 0}>
         <View style={styles.topBar}>

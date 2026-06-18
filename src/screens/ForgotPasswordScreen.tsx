@@ -128,7 +128,7 @@ const ForgotPasswordScreen = ({ navigation }: any) => {
 
   return (
     <KeyboardAvoidingView style={{ flex: 1, backgroundColor: BG_DARK }} behavior="padding">
-      <StatusBar barStyle="dark-content" backgroundColor={BG_DARK} />
+      <StatusBar barStyle="dark-content" backgroundColor="#FFFFFF" />
       <Toast message={toastState.message} type={toastState.type} visible={toastState.visible} />
       <View style={{ position: "absolute", top: -scale(80), right: -scale(50), width: scale(250), height: scale(250), borderRadius: scale(125), backgroundColor: "rgba(99,102,241,0.18)" }} />
       <View style={{ position: "absolute", bottom: -scale(60), left: -scale(40), width: scale(200), height: scale(200), borderRadius: scale(100), backgroundColor: "rgba(59,130,246,0.12)" }} />

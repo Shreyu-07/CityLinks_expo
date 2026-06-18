@@ -44,7 +44,7 @@ const TransportDashboard = ({ navigation }: any) => {
 
   return (
     <KeyboardAvoidingView style={styles.screen} behavior="padding" keyboardVerticalOffset={Platform.OS === "android" ? 0 : 0}>
-      <StatusBar barStyle="dark-content" backgroundColor={BG_DARK} />
+      <StatusBar barStyle="dark-content" backgroundColor="#FFFFFF" />
 
       <GlassHeader>
         <TopBar showBranding

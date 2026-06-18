@@ -66,7 +66,7 @@ const EditProfileScreen = ({ navigation }: any) => {
 
   return (
     <KeyboardAvoidingView style={{ flex: 1, backgroundColor: BG_DARK }} behavior="padding">
-      <StatusBar barStyle="dark-content" backgroundColor={BG_DARK} />
+      <StatusBar barStyle="dark-content" backgroundColor="#FFFFFF" />
       <Toast message={toastState.message} type={toastState.type} visible={toastState.visible} />
       <ScrollView contentContainerStyle={styles.formContainer} keyboardShouldPersistTaps="handled" showsVerticalScrollIndicator={false} automaticallyAdjustKeyboardInsets={true}>
         <TouchableOpacity style={[styles.changePwBack, { position: "relative", top: 0, left: 0, marginBottom: scale(16), alignSelf: "flex-start" }]} onPress={() => navigation.goBack()}>

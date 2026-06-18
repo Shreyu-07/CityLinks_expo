@@ -57,7 +57,7 @@ const AuthScreen = ({ navigation }: any) => {
 
   return (
     <KeyboardAvoidingView style={{ flex: 1, backgroundColor: BG_DARK }} behavior="padding">
-      <StatusBar barStyle="dark-content" backgroundColor={BG_DARK} />
+      <StatusBar barStyle="dark-content" backgroundColor="#FFFFFF" />
       <View style={[StyleSheet.absoluteFill, { backgroundColor: BG_DARK }]} />
       <View style={{ position: "absolute", top: -scale(90), right: -scale(60), width: scale(300), height: scale(300), borderRadius: scale(150), backgroundColor: "rgba(99,102,241,0.2)" }} />
       <FloatingBubbles count={14} />

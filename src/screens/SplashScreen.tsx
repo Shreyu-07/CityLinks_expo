@@ -26,7 +26,7 @@ const SplashScreen = ({ onFinish }: { onFinish: () => void }) => {
 
   return (
     <View style={{ flex: 1, backgroundColor: BG_DARK, alignItems: "center", justifyContent: "center" }}>
-      <StatusBar barStyle="dark-content" backgroundColor={BG_DARK} />
+      <StatusBar barStyle="dark-content" backgroundColor="#FFFFFF" />
       <View style={[StyleSheet.absoluteFill, { backgroundColor: BG_DARK }]} />
       <View style={{ position: "absolute", top: -scale(100), right: -scale(80), width: scale(350), height: scale(350), borderRadius: scale(175), backgroundColor: "rgba(99,102,241,0.18)" }} />
       <View style={{ position: "absolute", bottom: -scale(80), left: -scale(60), width: scale(280), height: scale(280), borderRadius: scale(140), backgroundColor: "rgba(59,130,246,0.12)" }} />

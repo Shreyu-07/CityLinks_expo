@@ -31,6 +31,8 @@ const UserDashboard = ({ navigation }: any) => {
   const [detectingLoc, setDetectingLoc] = useState(false);
   const [selectedCity, setSelectedCity] = useState("All");
   const [cityModalVisible, setCityModalVisible] = useState(false);
+  const [selectedCategory, setSelectedCategory] = useState("All Categories");
+  const [categoryModalVisible, setCategoryModalVisible] = useState(false);
   const [barcodeVisible, setBarcodeVisible] = useState(false);
   const { toastState, showToast } = useToast();
 
@@ -103,12 +105,28 @@ const UserDashboard = ({ navigation }: any) => {
     return ["All", ...Array.from(cities).sort()];
   }, [shops]);
 
+  const categoryOptions = useMemo(() => {
+    const categories = new Set<string>();
+    Object.values(shops).forEach((s) => {
+      if (s.role === "shopkeeper" && s.type?.trim()) categories.add(s.type.trim());
+      if (s.role === "labor" && s.skillType?.trim()) categories.add(s.skillType.trim());
+      if (s.role === "transport" && s.vehicleType?.trim()) categories.add(s.vehicleType.trim());
+    });
+    return ["All Categories", ...Array.from(categories).sort()];
+  }, [shops]);
+
   const filteredShops = useMemo(() => {
     const list = Object.entries(shops).filter(([, s]) => {
       const q = searchTerm.toLowerCase();
       const matchSearch = !q || s.shopName?.toLowerCase().includes(q) || s.type?.toLowerCase().includes(q) || s.location?.toLowerCase().includes(q) || s.fullName?.toLowerCase().includes(q) || s.skillType?.toLowerCase().includes(q) || s.vehicleType?.toLowerCase().includes(q);
       const matchCity = selectedCity === "All" || s.location?.toLowerCase().trim() === selectedCity.toLowerCase().trim();
-      return matchSearch && matchCity;
+      
+      const matchCategory = selectedCategory === "All Categories" ||
+        s.type?.toLowerCase().trim() === selectedCategory.toLowerCase().trim() ||
+        s.skillType?.toLowerCase().trim() === selectedCategory.toLowerCase().trim() ||
+        s.vehicleType?.toLowerCase().trim() === selectedCategory.toLowerCase().trim();
+
+      return matchSearch && matchCity && matchCategory;
     }).map(([id, s]) => {
       const distanceKm = (userLocation && userLocation.latitude && userLocation.longitude && s.latitude && s.longitude)
         ? haversineKm(userLocation.latitude, userLocation.longitude, s.latitude, s.longitude)
@@ -122,7 +140,7 @@ const UserDashboard = ({ navigation }: any) => {
       return (a.shopName || "").localeCompare(b.shopName || "");
     });
     return list;
-  }, [shops, searchTerm, selectedCity, userLocation]);
+  }, [shops, searchTerm, selectedCity, selectedCategory, userLocation]);
 
   const handleDetectLocation = async () => {
     setDetectingLoc(true);
@@ -157,7 +175,7 @@ const UserDashboard = ({ navigation }: any) => {
 
   return (
     <View style={styles.screen}>
-      <StatusBar barStyle="dark-content" backgroundColor={BG_DARK} />
+      <StatusBar barStyle="dark-content" backgroundColor="#FFFFFF" />
       <Toast message={toastState.message} type={toastState.type} visible={toastState.visible} />
 
       {/* FIX 3: lookup mode for user top barcode scanner */}
@@ -177,10 +195,10 @@ const UserDashboard = ({ navigation }: any) => {
           ? <View>{[1, 2, 3].map((i) => <ShopCardSkeleton key={i} />)}</View>
           : <View style={styles.emptyState}>
             <Ionicons name="storefront-outline" size={scale(55)} color={TEXT_DIM} />
-            <Text style={styles.emptyText}>No shops found</Text>
-            {selectedCity !== "All" && (
-              <TouchableOpacity onPress={() => setSelectedCity("All")} style={[styles.smallPillBtn, { alignSelf: "center", marginTop: scale(12) }]}>
-                <Text style={styles.smallPillBtnText}>Show all areas</Text>
+            <Text style={styles.emptyText}>No results found</Text>
+            {(selectedCity !== "All" || selectedCategory !== "All Categories") && (
+              <TouchableOpacity onPress={() => { setSelectedCity("All"); setSelectedCategory("All Categories"); }} style={[styles.smallPillBtn, { alignSelf: "center", marginTop: scale(12) }]}>
+                <Text style={styles.smallPillBtnText}>Clear filters</Text>
               </TouchableOpacity>
             )}
           </View>}
@@ -233,14 +251,21 @@ const UserDashboard = ({ navigation }: any) => {
               <TextInput style={styles.searchInput} placeholder="Search shops or categories…" placeholderTextColor={TEXT_DIM} value={searchTerm} onChangeText={setSearchTerm} />
               {searchTerm ? <TouchableOpacity onPress={() => setSearchTerm("")}><Ionicons name="close-circle" size={rfs(16)} color={TEXT_DIM} /></TouchableOpacity> : null}
             </View>
-            <View style={styles.filterBarRow}>
-              <TouchableOpacity style={styles.cityFilterBtn} onPress={() => setCityModalVisible(true)}>
-                <Ionicons name="location" size={rfs(12)} color={ACCENT_BLUE} />
-                <Text style={styles.cityFilterText} numberOfLines={1}>{selectedCity === "All" ? "All Areas" : selectedCity}</Text>
-                <Ionicons name="chevron-down" size={rfs(12)} color={ACCENT_BLUE} />
-              </TouchableOpacity>
-              <View style={{ flexDirection: "row", alignItems: "center", gap: scale(6) }}>
-                <Text style={styles.shopCountText}>🏪 {shopsLoaded ? `${filteredShops.length} Shop${filteredShops.length !== 1 ? "s" : ""}` : "Shops"}</Text>
+            <View style={{ paddingHorizontal: scale(16), marginTop: scale(12), marginBottom: scale(8) }}>
+              <View style={{ flexDirection: "row", alignItems: "center", gap: scale(8), marginBottom: scale(12) }}>
+                <TouchableOpacity style={[styles.cityFilterBtn, { flex: 1, maxWidth: "50%" }]} onPress={() => setCityModalVisible(true)}>
+                  <Ionicons name="location" size={rfs(12)} color={ACCENT_BLUE} />
+                  <Text style={styles.cityFilterText} numberOfLines={1}>{selectedCity === "All" ? "All Areas" : selectedCity}</Text>
+                  <Ionicons name="chevron-down" size={rfs(12)} color={ACCENT_BLUE} />
+                </TouchableOpacity>
+                <TouchableOpacity style={[styles.cityFilterBtn, { flex: 1, maxWidth: "50%" }]} onPress={() => setCategoryModalVisible(true)}>
+                  <Ionicons name="grid" size={rfs(12)} color={ACCENT_BLUE} />
+                  <Text style={styles.cityFilterText} numberOfLines={1}>{selectedCategory === "All Categories" ? "Category" : selectedCategory}</Text>
+                  <Ionicons name="chevron-down" size={rfs(12)} color={ACCENT_BLUE} />
+                </TouchableOpacity>
+              </View>
+              <View style={{ flexDirection: "row", alignItems: "center", justifyContent: "space-between" }}>
+                <Text style={styles.shopCountText}>📋 {shopsLoaded ? `${filteredShops.length} Result${filteredShops.length !== 1 ? "s" : ""}` : "Results"}</Text>
                 {userLocation && (
                   <View style={styles.nearestPill}>
                     <Ionicons name="navigate" size={rfs(9)} color={ACCENT_CYAN} />
@@ -271,6 +296,24 @@ const UserDashboard = ({ navigation }: any) => {
                   <Text style={[styles.modalItemText, selectedCity === item && { color: ACCENT_BLUE, fontWeight: "700" }]}>{item}</Text>
                 </View>
                 {selectedCity === item && <Ionicons name="checkmark-circle" size={rfs(19)} color={ACCENT_BLUE} />}
+              </TouchableOpacity>
+            )} />
+          </View>
+        </TouchableOpacity>
+      </Modal>
+
+      <Modal visible={categoryModalVisible} transparent animationType="slide" onRequestClose={() => setCategoryModalVisible(false)}>
+        <TouchableOpacity style={styles.modalOverlay} activeOpacity={1} onPress={() => setCategoryModalVisible(false)}>
+          <View style={styles.modalSheet}>
+            <View style={styles.modalHandle} />
+            <Text style={styles.modalTitle}>🏷️ Filter by Category</Text>
+            <FlatList data={categoryOptions} keyExtractor={(i) => i} renderItem={({ item }) => (
+              <TouchableOpacity style={[styles.modalItem, selectedCategory === item && { backgroundColor: "rgba(59,130,246,0.1)" }]} onPress={() => { setSelectedCategory(item); setCategoryModalVisible(false); }}>
+                <View style={{ flexDirection: "row", alignItems: "center", gap: scale(10) }}>
+                  <Ionicons name={item === "All Categories" ? "grid-outline" : "pricetag-outline"} size={rfs(14)} color={selectedCategory === item ? ACCENT_BLUE : TEXT_MUTED} />
+                  <Text style={[styles.modalItemText, selectedCategory === item && { color: ACCENT_BLUE, fontWeight: "700" }]}>{item}</Text>
+                </View>
+                {selectedCategory === item && <Ionicons name="checkmark-circle" size={rfs(19)} color={ACCENT_BLUE} />}
               </TouchableOpacity>
             )} />
           </View>
