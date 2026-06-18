@@ -38,6 +38,14 @@
     },
     "plugins": [
       [
+        "expo-splash-screen",
+        {
+          "image": "./assets/images/logo.png",
+          "resizeMode": "contain",
+          "backgroundColor": "#F8FAFC"
+        }
+      ],
+      [
         "expo-image-picker",
         {
           "photosPermission": "CityLinks needs access to your photos to upload profile pictures.",
@@ -53,9 +61,8 @@
     ],
     "extra": {
       "eas": {
-        "projectId": "684bf04f-5a28-426a-a189-cd5230862e36"
+        "projectId": "d738e4d6-739e-4f47-aa56-5570433dfefa"
       }
-    },
-    "owner": "shreyu07"
+    }
   }
 }

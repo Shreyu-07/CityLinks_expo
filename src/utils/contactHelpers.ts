@@ -8,8 +8,5 @@ export const handleCall = (phone: string) => {
 export const handleWhatsApp = (phone: string) => {
   const cleaned = phone.replace(/\D/g, "");
   const url = `whatsapp://send?phone=91${cleaned}`;
-  Linking.canOpenURL(url).then((ok) => {
-    if (ok) Linking.openURL(url);
-    else alert("WhatsApp is not installed on your device");
-  });
+  Linking.openURL(url).catch(() => alert("WhatsApp is not installed on your device"));
 };
